@@ -111,8 +111,6 @@ module ContainerCI
                           :docker_build_next_version,
                           :docker_tag])
 
-      # XXX: Document how to set up build triggers from other builds.
-
       @dsl.define_task(test: [:build])
 
       @dsl.define_task(:docker_push) do
