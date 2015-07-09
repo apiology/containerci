@@ -33,7 +33,6 @@ module ContainerCI
     end
 
     def define
-      # XXX: Document circleci.yml
       @dsl.define_task(:update_github_project) do
         puts "pulling #{GITHUB_PROJECT}..."
         if Dir.exist? GITHUB_PROJECT
@@ -55,9 +54,6 @@ module ContainerCI
            'fi; '
         puts 'done'
       end
-
-      # XXX: Why do we have to pull all images here, just to figure out what
-      # the latest version is?  Wish we could just pull latest.
 
       @dsl.define_task(:raw_docker_pull) do
         puts 'Pulling from dockerhub...'
@@ -142,7 +138,5 @@ module ContainerCI
                           #:deploy_to_prod
                          ])
     end
-    # XXX: As configured in CircleCI, this runs regardless of whether test passed
-
   end
 end
