@@ -5,7 +5,7 @@ require 'containerci/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "containerci"
-  spec.version       = Containerci::VERSION
+  spec.version       = ContainerCI::VERSION
   spec.authors       = ["Vince Broz"]
   spec.email         = ["vince@broz.cc"]
 
