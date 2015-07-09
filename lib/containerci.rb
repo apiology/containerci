@@ -111,8 +111,8 @@ module ContainerCI
                           :docker_build_next_version,
                           :docker_tag])
 
-      # XXX: Should kill this and instruct in the README for user to
-      # build their own
+      # XXX: Document how to set up build triggers from other builds.
+
       @dsl.define_task(test: [:build])
 
       @dsl.define_task(:docker_push) do
@@ -122,8 +122,7 @@ module ContainerCI
 
       @dsl.define_task(after_test_success:
                          [:docker_push,
-                           # XXX: Should uncomment and instruct user to define
-                           # :deploy
+                          :deploy
                          ])
     end
   end
