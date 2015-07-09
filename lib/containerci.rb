@@ -2,6 +2,7 @@ require 'rake'
 require 'rake/tasklib'
 require "containerci/version"
 
+# Rakefile toolkit for creating automated builds for Docker containers.
 module ContainerCI
   #
   # Exports a github project into a container--set up so that CI systems
