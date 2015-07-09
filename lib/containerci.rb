@@ -1,3 +1,5 @@
+require 'rake'
+require 'rake/tasklib'
 require "containerci/version"
 
 module ContainerCI
