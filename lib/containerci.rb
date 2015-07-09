@@ -1,6 +1,6 @@
 require 'rake'
 require 'rake/tasklib'
-require "containerci/version"
+require 'containerci/version'
 
 # Rakefile toolkit for creating automated builds for Docker containers.
 module ContainerCI
