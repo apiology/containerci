@@ -13,7 +13,7 @@ ContainerCI currently supports a pretty limited workflow for a container in Circ
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'container-ci'
+gem 'containerci'
 ```
 
 And then execute:
@@ -22,14 +22,14 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install container-ci
+    $ gem install containerci
 
 ## Usage
 
 Add this line to your applicatoin's Rakefile:
 
 ```ruby
-require 'container-ci'
+require 'containerci'
 ```
 
 ## Development
