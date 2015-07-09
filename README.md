@@ -1,10 +1,10 @@
 # ContainerCI
 
-This is a toolkit for creating automated builds for Docker containers.
+This is a toolkit for creating automated builds for Docker containers via the magic of Rakefiles.
 
 It will pull from a given tag from the project which you are containerizing, use Docker and your Dockerfile to build, run tests that you define, and push to DockerHub.
 
-With the below circle.yml, you can use CircleCI to automate this process and build your container whenever your source project changes and passes its tests.
+With the below sample circle.yml, you can use CircleCI to automate this process and build your container whenever your source project changes and passes its tests.
 
 ContainerCI currently supports a pretty limited workflow for a container in CircleCI (i.e., something I needed to do twice), but contributions are welcome!
 
@@ -26,16 +26,44 @@ Or install it yourself as:
 
 ## Usage
 
-Add this line to your applicatoin's Rakefile:
+1) Add this line to your application's Rakefile:
 
 ```ruby
 require 'containerci'
+
+ContainerCI::ExportGithubProjectIntoContainer.new
 ```
 
-Define tasks for :deploy (or change/remove the deployment section of your
+2) Create a circle.yml file that looks like this:
+
+
+```yaml
+machine:
+ services:
+   - docker
+ post:
+   - 'echo "{ \"https://index.docker.io/v1/\": { \"auth\": \"$DOCKERHUB_TOKEN\", \"email\": \"$DOCKERHUB_EMAIL\" }}" > ~/.dockercfg'
+dependencies:
+  cache_directories:
+    - "sinatra-vld"
+    - "~/docker"
+    - "~/docker-machine"
+  post:
+    - bundle exec rake dependencies
+test:
+  override:
+    - bundle exec rake test quality
+deployment:
+  staging:
+    branch: master
+    commands:
+      - bundle exec rake after_test_success
+```
+
+3) Define tasks for :deploy (or change/remove the deployment section of the below
 circleci.yml file).
 
-Define a task for :test to test your container before it is tagged and
+4) Define a task for :test to test your container before it is tagged and
 pushed to Docker Hub.
 
 
