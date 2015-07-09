@@ -89,7 +89,9 @@ module ContainerCI
                          [:restore_cache, :raw_docker_pull, :save_new_cache])
 
       @dsl.define_task(dependencies:
-                         [:update_github_project, :docker_pull, :get_docker_machine])
+                         [:update_github_project,
+                          :docker_pull,
+                          :get_docker_machine])
 
       @dsl.define_task(:print_next_version) do
         puts "next version is #{next_version}"
@@ -109,10 +111,9 @@ module ContainerCI
                           :docker_build_next_version,
                           :docker_tag])
 
-      @dsl.define_task(test:
-                         [:build,
-                          # :start_container, :verify_listening_on_port, :stop_container
-                         ])
+      # XXX: Should kill this and instruct in the README for user to
+      # build their own
+      @dsl.define_task(test: [:build])
 
       @dsl.define_task(:docker_push) do
         sh "docker push #{USER}/#{PROJECT_NAME}"
@@ -121,7 +122,8 @@ module ContainerCI
 
       @dsl.define_task(after_test_success:
                          [:docker_push,
-                          #:deploy_to_prod
+                           # XXX: Should uncomment and instruct user to define
+                           # :deploy
                          ])
     end
   end
