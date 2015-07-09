@@ -2,8 +2,11 @@
 
 This is a toolkit for creating automated builds for Docker containers.
 
-It currently supports a limited workflow for a container in CircleCI
-(i.e., something I needed to do twice),  but contributions are welcome!
+It will pull from a given tag from the project which you are containerizing, use Docker and your Dockerfile to build, run tests that you define, and push to DockerHub.
+
+With the below circle.yml, you can use CircleCI to automate this process and build your container whenever your source project changes and passes its tests.
+
+ContainerCI currently supports a pretty limited workflow for a container in CircleCI (i.e., something I needed to do twice), but contributions are welcome!
 
 ## Installation
 
