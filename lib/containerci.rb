@@ -119,21 +119,6 @@ module ContainerCI
         sh "docker push #{USER}/#{PROJECT_NAME}:#{current_version}"
       end
 
-      @dsl.define_task(:manual_deploy) do
-        sh "in-sinatra-vld-prod docker pull #{USER}/#{PROJECT_NAME}:latest"
-        sh 'in-sinatra-vld-prod docker ps'
-        sh 'in-sinatra-vld-prod docker kill `in-sinatra-vld-prod docker ps -l -q`'
-        sh 'in-sinatra-vld-prod docker run -d -P -p 0.0.0.0:4567:4567 ' \
-           "-v /root/private:/root/private #{USER}/#{PROJECT_NAME}"
-        sh 'in-sinatra-vld-prod docker ' \
-           'exec -it `in-sinatra-vld-prod docker ps -l -q` /bin/dropbox ' \
-           'status'
-        puts "After connected, hit Control-C and run 'rake wait_for_dropbox'"
-        sh 'in-sinatra-vld-prod docker exec -it ' \
-           '`in-sinatra-vld-prod docker ps -l -q` ' \
-           'tail -f /var/log/dropbox/dropbox.log'
-      end
-
       @dsl.define_task(after_test_success:
                          [:docker_push,
                           #:deploy_to_prod
