@@ -66,6 +66,41 @@ circleci.yml file).
 4) Define a task for :test to test your container before it is tagged and
 pushed to Docker Hub.
 
+5) Verify it works.
+
+6) Set up a trigger to build your container project when the source project succesfully builds (see below). 
+
+## Setting up CircleCI automated build triggers
+
+When your source project succesfully builds and passes tests, you're going to want to rebuild the container with the resulting files.  Add this to your source project (not the one you're using this gem with!):
+
+```yaml
+deployment:
+  staging:
+    branch: master
+    commands:
+      - bundle exec rake after_test_success
+```
+
+Now add these tasks to your Rakefile:
+
+```ruby
+# this is run by CircleCI
+task after_test_success: [:tag, :trigger_next_builds]
+
+task :tag do
+  sh 'git tag -f tests_passed'
+  sh 'git push -f origin tests_passed'
+end
+
+GITHUB_USER = 'you'
+DOWNSTREAM_GITHUB_PROJECT = 'your-container-project'
+
+task :trigger_next_builds do
+  sh "curl -v -X POST https://circleci.com/api/v1/project/#{GITHUB_USER}/" \
+     "#{DOWNSTREAM_GITHUB_PROJECT}/tree/master?circle-token=$CIRCLE_TOKEN"
+end
+```
 
 ## Development
 
