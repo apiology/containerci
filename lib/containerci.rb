@@ -48,27 +48,25 @@ module ContainerCI
         puts 'done'
       end
 
-      @dsl.define_task(:restore_cache) do
+      # XXX: I shouldn't save cache again and should instead rely on
+      # me flushing cache every once in a while.  Maybe automate by
+      # looking for cache freshness.
+      @dsl.define_task(:docker_pull) do
+        docker_pull_cmds = 'false; ' \
+           'until [ $? -eq 0 ]; do ' \
+           "docker pull #{USER}/#{PROJECT_NAME}:latest < /dev/null; done"
         puts 'Restoring from docker cache...'
         sh "if [ -e ~/docker/#{PROJECT_NAME}.tar ]; " \
            'then ' \
            '  echo "restoring from cache"; ' \
            "  docker load -i ~/docker/#{PROJECT_NAME}.tar;" \
+           "  #{docker_pull_cmds};" \
+           'else ' \
+           '  echo "recreating cache"; ' \
+           "  #{docker_pull_cmds};" \
+           "  mkdir -p ~/docker; docker save #{USER}/#{PROJECT_NAME}:latest " \
+           "    > ~/docker/#{PROJECT_NAME}.tar; " \
            'fi; '
-        puts 'done'
-      end
-
-      @dsl.define_task(:raw_docker_pull) do
-        puts 'Pulling from dockerhub...'
-        sh 'false; ' \
-           'until [ $? -eq 0 ]; do ' \
-           "docker pull #{USER}/#{PROJECT_NAME}:latest < /dev/null; done"
-        puts 'done'
-      end
-
-      @dsl.define_task(:save_new_cache) do
-        sh "mkdir -p ~/docker; docker save #{USER}/#{PROJECT_NAME}:latest > " \
-           "  ~/docker/#{PROJECT_NAME}.tar"
       end
 
       @dsl.define_task(:get_docker_machine) do
@@ -86,12 +84,6 @@ module ContainerCI
            '  chmod +x ~/docker-machine/docker-machine; ' \
            'fi'
       end
-
-      # XXX: I shouldn't save cache again and should instead rely on
-      # me flushing cache every once in a while.  Maybe automate by
-      # looking for cache freshness.
-      @dsl.define_task(docker_pull:
-                         [:restore_cache, :raw_docker_pull, :save_new_cache])
 
       @dsl.define_task(dependencies:
                          [:update_github_project,
