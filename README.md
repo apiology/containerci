@@ -103,6 +103,12 @@ task :trigger_next_builds do
 end
 ```
 
+## Caching
+
+ContainerCI takes advantage of the CircleCI cache to avoid rebuilding parts of the image that have not changed.  Pulling images from Docker Hub is expensive; pulling in the cache is less so (but still takes a while!).
+
+If you have made changes early on in your Dockerfile, you'll find that the cache kept by CircleCI is no longer valid--use CircleCI's 'Rebuild without cache' functionality to regenerate the cache based on newer information.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

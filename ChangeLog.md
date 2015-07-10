@@ -9,3 +9,7 @@
 ## Changes since ContainerCI 0.3.0
 
 Fix git commands to handle tags correctly
+
+## Changes since ContainerCI 0.3.1
+
+Improve caching approach.
