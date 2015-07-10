@@ -112,8 +112,6 @@ module ContainerCI
                           :docker_build_next_version,
                           :docker_tag])
 
-      @dsl.define_task(test: [:build])
-
       @dsl.define_task(:docker_push) do
         sh "docker push #{USER}/#{PROJECT_NAME}"
         sh "docker push #{USER}/#{PROJECT_NAME}:#{current_version}"

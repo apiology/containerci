@@ -52,7 +52,7 @@ dependencies:
     - bundle exec rake dependencies
 test:
   override:
-    - bundle exec rake test quality
+    - bundle exec rake build test
 deployment:
   staging:
     branch: master
