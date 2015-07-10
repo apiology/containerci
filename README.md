@@ -90,6 +90,7 @@ task after_test_success: [:tag, :trigger_next_builds]
 
 task :tag do
   sh 'git tag -f tests_passed'
+  sh 'git push --tags -f'
   sh 'git push -f origin tests_passed'
 end
 

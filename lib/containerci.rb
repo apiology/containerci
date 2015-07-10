@@ -40,9 +40,10 @@ module ContainerCI
           sh 'git clone https://$GITHUB_OAUTH:x-oauth-basic@' \
              "github.com/#{USER}/#{GITHUB_PROJECT}.git"
         end
+        sh "cd #{GITHUB_PROJECT} && git rev-parse HEAD"
+        sh "cd #{GITHUB_PROJECT} && git fetch --tags"
         sh "cd #{GITHUB_PROJECT} && git pull origin tests_passed"
         sh "cd #{GITHUB_PROJECT} && git show-ref --tags"
-        sh "cd #{GITHUB_PROJECT} && git checkout tests_passed"
         sh "cd #{GITHUB_PROJECT} && git rev-parse HEAD"
         puts 'done'
       end
