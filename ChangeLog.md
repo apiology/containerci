@@ -6,3 +6,6 @@
 
 ### Clarify test task
 
+## Changes since ContainerCI 0.3.0
+
+Fix git commands to handle tags correctly
