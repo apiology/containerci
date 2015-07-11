@@ -54,9 +54,6 @@ module ContainerCI
         puts 'done'
       end
 
-      # XXX: I shouldn't save cache again and should instead rely on
-      # me flushing cache every once in a while.  Maybe automate by
-      # looking for cache freshness.
       @dsl.define_task(:docker_pull) do
         docker_pull_cmds = 'false; ' \
            'until [ $? -eq 0 ]; do ' \
