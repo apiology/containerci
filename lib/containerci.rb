@@ -33,6 +33,12 @@ module ContainerCI
       @next_version ||= `sh -c 'TZ=UTC date +%Y-%m-%d-%H%M'`.chomp
     end
 
+    def docker_push_cmds(version)
+      'false; ' \
+      'until [ $? -eq 0 ]; do ' \
+      "docker push #{USER}/#{PROJECT_NAME}:#{version} < /dev/null; done"
+    end
+
     def define
       @dsl.define_task(:update_github_project) do
         puts "pulling #{GITHUB_PROJECT}..."
@@ -109,8 +115,9 @@ module ContainerCI
                           :docker_tag])
 
       @dsl.define_task(:docker_push) do
-        sh "docker push #{USER}/#{PROJECT_NAME}"
-        sh "docker push #{USER}/#{PROJECT_NAME}:#{current_version}"
+
+        sh docker_push_cmds('latest')
+        sh docker_push_cmds(current_version)
       end
 
       @dsl.define_task(after_test_success:
