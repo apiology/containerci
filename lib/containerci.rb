@@ -112,7 +112,6 @@ module ContainerCI
                           :docker_tag])
 
       @dsl.define_task(:docker_push) do
-
         sh docker_push_cmds('latest')
         sh docker_push_cmds(current_version)
       end
