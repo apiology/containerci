@@ -13,3 +13,7 @@ Fix git commands to handle tags correctly
 ## Changes since ContainerCI 0.3.1
 
 Improve caching approach.
+
+## Changes since ContainerCI 0.4.0
+
+Retry on docker push if error received.
