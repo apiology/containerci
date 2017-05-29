@@ -121,6 +121,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ### To run tests alone
   ```rake feature```
   ```rake spec```
+  
+## To publish
+  ```bundle exec rake release```
 
 ## Contributing
 
