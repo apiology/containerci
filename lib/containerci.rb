@@ -103,6 +103,8 @@ module ContainerCI
 
       @dsl.define_task(:docker_tag) do
         sh "docker tag -f #{USER}/#{PROJECT_NAME}:#{next_version} " \
+           "#{USER}/#{PROJECT_NAME}:latest || " \
+           "docker tag #{USER}/#{PROJECT_NAME}:#{next_version} " \
            "#{USER}/#{PROJECT_NAME}:latest"
       end
 
